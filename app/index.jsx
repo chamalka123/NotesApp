@@ -3,17 +3,17 @@ import { useRouter } from 'expo-router';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const HomeScreen = () => {
-const router = useRouter();
+  const router = useRouter();
 
   return (
-    <View style = {styles.container}>
-      <Image source={postitImage} style = {styles.image}/>
-      <Text style = {styles.title}>Welcome to Notes App.</Text>
-      <Text style = {styles.subtitle}>Capture yout thhoughts anytime</Text>
-    <TouchableOpacity style={styles.button} onPress={() => router.push('/notes')}>
-      <Text style={styles.buttonText}>Get Started</Text>
-    </TouchableOpacity>
-    
+    <View style={styles.container}>
+      <Image source={postitImage} style={styles.image} />
+      <Text style={styles.title}>Welcome to Notes App.</Text>
+      <Text style={styles.subtitle}>Capture yout thhoughts anytime</Text>
+      <TouchableOpacity style={styles.button} onPress={() => router.push('/notes')}>
+        <Text style={styles.buttonText}>Get Started</Text>
+      </TouchableOpacity>
+
     </View>
   );
 }
@@ -26,14 +26,14 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#f8f9fa'
   },
-  image:{
-    width : 100,
+  image: {
+    width: 100,
     height: 100,
     marginBottom: 20,
-    borderRadius:10,
+    borderRadius: 10,
   },
-  title :{
-    fontSize : 28,
+  title: {
+    fontSize: 28,
     fontWeight: 'bold',
     marginBottom: 10,
     color: '#333',
@@ -44,14 +44,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 20,
   },
-  button:{
-    backgroundColor:'#007bff',
+  button: {
+    backgroundColor: '#007bff',
     paddingVertical: 12,
-    paddingHorizontal:25,
+    paddingHorizontal: 25,
     borderRadius: 8,
     alignItems: 'center',
   },
-  buttonText:{
+  buttonText: {
     color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
