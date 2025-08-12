@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator } from "react-native-web";
 import noteService from "../../services/noteService";
 import AddNoteModal from "../components/AddNoteModal";
 import NoteList from "../components/NoteList";
@@ -31,20 +32,51 @@ const NoteScreen = () => {
     }
 
     //Add new note
-    const addNote = () =>{
+    const addNote = async() =>{
         if(newNote.trim() === '') return;
 
-        setNotes((prevNotes) => [
-            ...prevNotes,
-            {id : Date.now.toString(), text: newNote}
-        ]);
+        const response = await noteService.addNote(newNote);
+
+        if(response.error){
+            Alert.alert('Error', response.error);
+        }else{
+            setNotes([...notes, response.data]);
+        }
 
         setNewNote('');
         setModalVisible(false);
     }
 
+//Delete note
+const deleteNote = async (id) => {
+    Alert.alert('Delete Note', 'Are you sure you want to delete this note?',[
+        {
+            text: 'Cancel',
+            style: 'cancel'
+        },
+        {
+            text: 'Delete',
+            style:'destructive',
+            onPress: async () => {
+                const response = await noteService.deleteNote(id);
+                if(response.error){
+                    Alert.alert('Error', response.error);
+                }else{
+                    setNotes(notes.filter((note)=>note.$id !== id));
+                }
+            }
+        }
+    ])
+}
+
     return (<View style={styles.container}>
-      <NoteList notes={notes}/>
+        {loading ? (
+            <ActivityIndicator size="large" color="#007bff"/>
+        ):(
+        <>
+            {error && <Text style={styles.errorText}>{error}</Text>}
+            <NoteList notes={notes} onDelete={deleteNote}/>
+        </>)}
 
         <TouchableOpacity style={styles.addbutton} onPress={() => setModalVisible(true)}>
             <Text style={styles.addbuttonText}>+ Add Note</Text>
@@ -85,6 +117,12 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
     },
+    errorText:{
+        color: 'red',
+        textAlign:'center',
+        marginBottom: 10,
+        fontSize: 16,
+    }
     
 })
 
